@@ -26,6 +26,10 @@ inputs:
       How long (in seconds) to wait at most before moving on.
       This can help saving build minutes with very long deployments,
       but you will lose any deployment failure information.
+  force:
+    required: false
+    description: |
+      Force push if you messed up with your remote HEAD
 runs:
   using: docker
   image: docker://47ng/actions-clever-cloud:latest
