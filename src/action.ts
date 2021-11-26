@@ -134,6 +134,8 @@ export default async function run({
       args.push('--force')
     } 
     
+    args.push('--hello')
+    
     if (timeout) {
       let timeoutID: NodeJS.Timeout | undefined
       let timedOut = false
