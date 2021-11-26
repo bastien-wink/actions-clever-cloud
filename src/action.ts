@@ -13,6 +13,7 @@ export interface Arguments {
   alias?: string
   appID?: string
   timeout?: number
+  force?: string
   cleverCLI: string
   extraEnv?: ExtraEnv
 }
@@ -71,12 +72,15 @@ export function processArguments(): Arguments {
   const appID = core.getInput('appID')
   const alias = core.getInput('alias')
   const timeout = parseInt(core.getInput('timeout')) || undefined
+  const force = core.getInput('force')
+
   return {
     token,
     secret,
     alias,
     appID,
     timeout,
+    force, 
     cleverCLI: path.resolve(__dirname, '../node_modules/.bin/clever'),
     extraEnv: listExtraEnv()
   }
@@ -89,6 +93,7 @@ export default async function run({
   alias,
   cleverCLI,
   timeout,
+  force,
   extraEnv = {}
 }: Arguments): Promise<void> {
   try {
@@ -124,7 +129,11 @@ export default async function run({
     } else if (alias) {
       args.push('--alias', alias)
     }
-
+    
+    if (force) {
+      args.push('--force')
+    } 
+    
     if (timeout) {
       let timeoutID: NodeJS.Timeout | undefined
       let timedOut = false
